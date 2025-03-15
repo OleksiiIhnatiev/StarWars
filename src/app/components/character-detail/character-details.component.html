@@ -1,0 +1,11 @@
+<h1>{{ character?.name }}</h1>
+<p>Height: {{ character?.height }} cm</p>
+<p>Mass: {{ character?.mass }} kg</p>
+<p>Birth Year: {{ character?.birth_year }}</p>
+
+<h3>Movies:</h3>
+<ul>
+  <li *ngFor="let movie of movies" (click)="navigateToMovieDetails(movie)">
+    {{ movie }}
+  </li>
+</ul>

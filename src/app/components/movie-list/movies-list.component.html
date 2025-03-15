@@ -1,0 +1,6 @@
+<!-- movies-list.component.html -->
+<div *ngFor="let movie of movies">
+  <h2 (click)="navigateToMovieDetails(getMovieId(movie.url))">
+    {{ movie.title }}
+  </h2>
+</div>
