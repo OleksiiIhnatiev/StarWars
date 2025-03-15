@@ -1,11 +1,24 @@
-<h1>{{ character?.name }}</h1>
-<p>Height: {{ character?.height }} cm</p>
-<p>Mass: {{ character?.mass }} kg</p>
-<p>Birth Year: {{ character?.birth_year }}</p>
+<mat-progress-spinner
+  *ngIf="loadingService.loading$ | async"
+  mode="indeterminate"
+  color="accent"
+  class="spinner"
+></mat-progress-spinner>
 
-<h3>Movies:</h3>
-<ul>
-  <li *ngFor="let movie of movies" (click)="navigateToMovieDetails(movie)">
-    {{ movie }}
-  </li>
-</ul>
+<div *ngIf="character" class="character-details">
+  <h1 class="character-name">{{ character?.name }}</h1>
+  <p class="character-info">Height: {{ character?.height }} cm</p>
+  <p class="character-info">Mass: {{ character?.mass }} kg</p>
+  <p class="character-info">Birth Year: {{ character?.birth_year }}</p>
+
+  <h3 class="movies-title">Movies:</h3>
+  <ul class="movies-list">
+    <li
+      *ngFor="let movie of movies"
+      (click)="navigateToMovieDetails(movie)"
+      class="movie-item"
+    >
+      {{ movie.title }}
+    </li>
+  </ul>
+</div>

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SwapiService } from '../../services/swapi.service';
+import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-character-details',
   templateUrl: './character-details.component.html',
-  styleUrls: ['./character-details.component.css'],
-  imports: [CommonModule],
+  styleUrls: ['./character-details.component.scss'],
+  imports: [CommonModule, MatProgressSpinnerModule],
 })
 export class CharacterDetailsComponent implements OnInit {
   character: any;
@@ -16,7 +18,8 @@ export class CharacterDetailsComponent implements OnInit {
   constructor(
     private swapiService: SwapiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -24,9 +27,22 @@ export class CharacterDetailsComponent implements OnInit {
     if (characterId) {
       const id = Number(characterId);
       if (!isNaN(id)) {
+        this.loadingService.setLoading(true);
+
         this.swapiService.getCharacterDetails(id).subscribe((data: any) => {
           this.character = data;
-          this.movies = data.films;
+
+          const movieRequests = data.films.map((url: string) =>
+            this.swapiService.getMovieByUrl(url).then((movie) => ({
+              title: movie.title,
+              url: url,
+            }))
+          );
+
+          Promise.all(movieRequests).then((moviesData) => {
+            this.movies = moviesData;
+            this.loadingService.setLoading(false);
+          });
         });
       } else {
         console.error('Invalid character ID');

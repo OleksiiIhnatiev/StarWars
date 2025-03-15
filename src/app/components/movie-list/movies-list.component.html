@@ -1,6 +1,15 @@
-<!-- movies-list.component.html -->
-<div *ngFor="let movie of movies">
-  <h2 (click)="navigateToMovieDetails(getMovieId(movie.url))">
+<mat-progress-spinner
+  *ngIf="loadingService.loading$ | async"
+  mode="indeterminate"
+  color="accent"
+  class="spinner"
+></mat-progress-spinner>
+
+<div *ngFor="let movie of movies" class="movie-item">
+  <h2
+    (click)="navigateToMovieDetails(getMovieId(movie.url))"
+    class="movie-title"
+  >
     {{ movie.title }}
   </h2>
 </div>

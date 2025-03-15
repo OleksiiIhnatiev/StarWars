@@ -22,7 +22,13 @@ export class SwapiService {
   getMovieDetails(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/films/${id}/`);
   }
-
+  getCharacterByUrl(url: string): Promise<any> {
+    return this.http.get(url).toPromise();
+  }
+  getMovieByUrl(url: string): Promise<any> {
+    return this.http.get(url).toPromise();
+  }
+  
   getCharacterDetails(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/people/${id}/`);
   }
