@@ -1,12 +1,19 @@
 <mat-progress-spinner
   *ngIf="loadingService.loading$ | async"
   mode="indeterminate"
-  color="accent"
   class="spinner"
 ></mat-progress-spinner>
 
 <div *ngIf="character" class="character-details">
   <h1 class="character-name">{{ character?.name }}</h1>
+
+  <img
+    *ngIf="characterImages[character?.name]"
+    [src]="characterImages[character?.name]"
+    alt="{{ character?.name }}"
+    class="character-image"
+  />
+
   <p class="character-info">Height: {{ character?.height }} cm</p>
   <p class="character-info">Mass: {{ character?.mass }} kg</p>
   <p class="character-info">Hair color: {{ character?.hair_color }}</p>
@@ -28,7 +35,6 @@
         alt="{{ film.title }}"
         class="film-image"
       />
-
       <h4>{{ film.title }}</h4>
     </div>
   </div>

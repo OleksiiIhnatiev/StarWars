@@ -5,10 +5,11 @@
   font-family: "Star Jedi", sans-serif;
   padding: 20px;
 }
+
 .opening-crawl {
   color: #fac303;
   text-align: center;
-  font-family: 'Star Wars', sans-serif;
+  font-family: "Star Wars", sans-serif;
 }
 
 .characters-list {
@@ -16,6 +17,30 @@
   grid-template-columns: repeat(8, 1fr);
   gap: 10px;
   padding: 0;
+}
+
+@media (max-width: 1200px) {
+  .characters-list {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .characters-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .characters-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .characters-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .character-item {
@@ -29,9 +54,18 @@
   transition: background-color 0.3s ease;
   border-radius: 5px;
 }
+
 .character-image {
-  width: 100px;
-  height: 150px;
-  object-fit: contain;
+  width: 150px;
+  height: 230px;
+  object-fit: cover;
+  object-position: top;
   margin-top: 10px;
+}
+
+.film-image {
+  width: 300px;
+  height: 500px;
+  object-fit: cover;
+  margin-bottom: 20px;
 }

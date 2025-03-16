@@ -15,14 +15,15 @@ import { ImageSearchService } from '../../services/image.search.service';
 export class CharacterDetailsComponent implements OnInit {
   character: any;
   films: any[] = [];
-  filmImages: any = {};  // Добавляем объект для хранения картинок фильмов
+  filmImages: any = {};
+  characterImages: any = {};
 
   constructor(
     private swapiService: SwapiService,
     private route: ActivatedRoute,
     private router: Router,
     public loadingService: LoadingService,
-    private imageSearchService: ImageSearchService  // Инжектируем ImageSearchService
+    private imageSearchService: ImageSearchService
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +36,15 @@ export class CharacterDetailsComponent implements OnInit {
         this.swapiService.getCharacterDetails(id).subscribe((data: any) => {
           this.character = data;
 
+          this.imageSearchService
+            .getImages(this.character.name)
+            .subscribe((response: any) => {
+              if (response.items && response.items.length > 0) {
+                this.characterImages[this.character.name] =
+                  response.items[0].link;
+              }
+            });
+
           const filmRequests = data.films.map((url: string) =>
             this.swapiService.getMovieByUrl(url).then((film) => ({
               title: film.title,
@@ -45,14 +55,14 @@ export class CharacterDetailsComponent implements OnInit {
           Promise.all(filmRequests).then((filmsData) => {
             this.films = filmsData;
 
-            // Для каждого фильма получаем изображение
             filmsData.forEach((film) => {
-              this.imageSearchService.getImages(film.title).subscribe((response: any) => {
-                if (response.items && response.items.length > 0) {
-                  // Сохраняем картинку для каждого фильма в объекте
-                  this.filmImages[film.title] = response.items[0].link;
-                }
-              });
+              this.imageSearchService
+                .getImages(film.title)
+                .subscribe((response: any) => {
+                  if (response.items && response.items.length > 0) {
+                    this.filmImages[film.title] = response.items[0].link;
+                  }
+                });
             });
 
             this.loadingService.setLoading(false);

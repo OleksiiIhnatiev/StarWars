@@ -6,10 +6,17 @@
 ></mat-progress-spinner>
 
 <div *ngIf="film" class="film-details">
-  <h1 class="film-title">{{ film?.title }}</h1>
+  <div class="film-header">
+    <h1 class="film-title">{{ film?.title }}</h1>
+    <img
+      *ngIf="filmImageUrl"
+      [src]="filmImageUrl"
+      alt="{{ film?.title }}"
+      class="film-image"
+    />
+  </div>
   <p class="film-info">Producer: {{ film?.producer }}</p>
   <p class="film-info">Director: {{ film?.director }}</p>
-  <p class="film-info">Producer: {{ film?.producer }}</p>
   <p class="film-info">Release Date: {{ film?.release_date }}</p>
   <p class="opening-crawl">{{ film?.opening_crawl }}</p>
 
@@ -27,7 +34,6 @@
           alt="{{ character.name }}"
           class="character-image"
         />
-
         <h4>{{ character.name }}</h4>
       </div>
     </div>

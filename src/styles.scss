@@ -66,10 +66,9 @@ body {
 .spinner {
   margin: 50px auto;
   display: block;
-  border-color: #fac303 !important;
 }
 
-.film-title {
+.film-title, .character-name {
   animation: fadeInUp 0.8s ease-out;
 }
 
