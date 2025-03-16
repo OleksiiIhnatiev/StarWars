@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-movies-list',
-  templateUrl: './movies-list.component.html',
-  styleUrls: ['./movies-list.component.scss'],
+  selector: 'app-films-list',
+  templateUrl: './films-list.component.html',
+  styleUrls: ['./films-list.component.scss'],
   imports: [CommonModule, MatProgressSpinnerModule],
 })
 export class MoviesListComponent implements OnInit {
-  movies: any[] = [];
+  films: any[] = [];
 
   constructor(
     private swapiService: SwapiService,
@@ -24,7 +24,7 @@ export class MoviesListComponent implements OnInit {
     this.loadingService.setLoading(true);
 
     this.swapiService.getMovies().subscribe((data: any) => {
-      this.movies = data.results;
+      this.films = data.results;
       this.loadingService.setLoading(false);
     });
   }
@@ -34,6 +34,6 @@ export class MoviesListComponent implements OnInit {
   }
 
   navigateToMovieDetails(id: number): void {
-    this.router.navigate([`/movie/${id}`]);
+    this.router.navigate([`/film/${id}`]);
   }
 }

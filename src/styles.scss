@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
+@import url('https://fonts.cdnfonts.com/css/star-wars');
 html,
 body {
   height: 100%;
@@ -7,72 +6,70 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .character-details,
-.movie-details {
+.film-details {
   margin-top: 30px;
+  
 }
 
 .character-name,
-.movie-title {
+.film-title {
   font-size: 36px;
   text-transform: uppercase;
-  color: #ffcc00;
+  color: #fac303;
   text-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
   text-align: center;
   margin-bottom: 20px;
 }
 
 .character-info,
-.movie-info {
+.film-info {
   font-size: 18px;
   margin-bottom: 10px;
   letter-spacing: 1px;
+  
 }
 
-.movies-title,
+.films-title,
 .characters-title {
   font-size: 24px;
-  color: #ffcc00;
+  color: #fac303;
   text-transform: uppercase;
   margin-top: 40px;
   text-align: center;
 }
 
-.movies-list,
+.films-list,
 .characters-list {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
-.movie-item,
+.film-item,
 .character-item {
   font-size: 18px;
-  color: #f2f2f2;
   cursor: pointer;
   padding: 10px;
-  margin: 5px 0;
   transition: background-color 0.3s ease;
   border-bottom: 1px solid #444;
 }
 
-.movie-item:hover,
+.film-item:hover,
 .character-item:hover {
   background-color: #333;
-  color: #ffcc00;
+  color: #fac303;
   text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
 }
 
 .spinner {
   margin: 50px auto;
   display: block;
-  border-color: #ffcc00 !important;
+  border-color: #fac303 !important;
 }
 
-.movie-title {
+.film-title {
   animation: fadeInUp 0.8s ease-out;
 }
 
@@ -87,29 +84,15 @@ body {
   }
 }
 
-.movie-item {
-  margin-bottom: 20px;
+.film-item {
   border-bottom: 2px solid #444;
 }
 
-.movie-title {
-  cursor: pointer;
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-}
-
-.movie-title:hover {
-  color: #ffcc00;
-  text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
-}
-
-.movie-item:nth-child(odd) .movie-title {
+.film-item:nth-child(odd) .film-title {
   animation: fadeInLeft 0.8s ease-out;
 }
 
-.movie-item:nth-child(even) .movie-title {
+.film-item:nth-child(even) .film-title {
   animation: fadeInRight 0.8s ease-out;
 }
 
@@ -137,12 +120,10 @@ body {
 
 .toolbar {
   background-color: #222;
-  color: #ffcc00;
+  color: #fac303 !important;
   text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
   font-size: 24px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  padding: 10px 20px;
 }
 
 .spacer {
@@ -156,7 +137,6 @@ mat-toolbar.mat-primary {
 
 
 
-/* Кнопка в стиле Star Wars */
 .star-wars-button {
   background-color: transparent;
   color: #ffcc00;

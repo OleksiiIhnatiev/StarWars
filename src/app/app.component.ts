@@ -13,13 +13,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  movies: any[] = [];
+  films: any[] = [];
 
   constructor(private swapiService: SwapiService, private router: Router) {}
 
   ngOnInit(): void {
     this.swapiService.getMovies().subscribe((data: any) => {
-      this.movies = data.results;
+      this.films = data.results;
     });
   }
 
@@ -28,6 +28,6 @@ export class AppComponent implements OnInit {
   }
 
   navigateToMovieDetails(id: number): void {
-    this.router.navigate([`/movie/${id}`]);
+    this.router.navigate([`/film/${id}`]);
   }
 }

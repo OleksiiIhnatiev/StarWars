@@ -5,11 +5,11 @@
   class="spinner"
 ></mat-progress-spinner>
 
-<div *ngFor="let movie of movies" class="movie-item">
+<div *ngFor="let film of films" class="film-item">
   <h2
-    (click)="navigateToMovieDetails(getMovieId(movie.url))"
-    class="movie-title"
+    (click)="navigateToMovieDetails(getMovieId(film.url))"
+    class="film-title"
   >
-    {{ movie.title }}
+    {{ film.title }}
   </h2>
 </div>

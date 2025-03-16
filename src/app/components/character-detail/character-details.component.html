@@ -9,16 +9,27 @@
   <h1 class="character-name">{{ character?.name }}</h1>
   <p class="character-info">Height: {{ character?.height }} cm</p>
   <p class="character-info">Mass: {{ character?.mass }} kg</p>
+  <p class="character-info">Hair color: {{ character?.hair_color }}</p>
+  <p class="character-info">Skin color: {{ character?.skin_color }}</p>
+  <p class="character-info">Eye color: {{ character?.eye_color }}</p>
+  <p class="character-info">Gender: {{ character?.gender }}</p>
   <p class="character-info">Birth Year: {{ character?.birth_year }}</p>
 
-  <h3 class="movies-title">Movies:</h3>
-  <ul class="movies-list">
-    <li
-      *ngFor="let movie of movies"
-      (click)="navigateToMovieDetails(movie)"
-      class="movie-item"
+  <h3 class="films-title">Movies:</h3>
+  <div class="films-list">
+    <div
+      *ngFor="let film of films"
+      (click)="navigateToMovieDetails(film)"
+      class="film-item"
     >
-      {{ movie.title }}
-    </li>
-  </ul>
+      <img
+        *ngIf="filmImages[film.title]"
+        [src]="filmImages[film.title]"
+        alt="{{ film.title }}"
+        class="film-image"
+      />
+
+      <h4>{{ film.title }}</h4>
+    </div>
+  </div>
 </div>

@@ -4,6 +4,7 @@ import { SwapiService } from '../../services/swapi.service';
 import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ImageSearchService } from '../../services/image.search.service';
 
 @Component({
   selector: 'app-character-details',
@@ -13,13 +14,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class CharacterDetailsComponent implements OnInit {
   character: any;
-  movies: any[] = [];
+  films: any[] = [];
+  filmImages: any = {};  // Добавляем объект для хранения картинок фильмов
 
   constructor(
     private swapiService: SwapiService,
     private route: ActivatedRoute,
     private router: Router,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private imageSearchService: ImageSearchService  // Инжектируем ImageSearchService
   ) {}
 
   ngOnInit(): void {
@@ -32,15 +35,26 @@ export class CharacterDetailsComponent implements OnInit {
         this.swapiService.getCharacterDetails(id).subscribe((data: any) => {
           this.character = data;
 
-          const movieRequests = data.films.map((url: string) =>
-            this.swapiService.getMovieByUrl(url).then((movie) => ({
-              title: movie.title,
+          const filmRequests = data.films.map((url: string) =>
+            this.swapiService.getMovieByUrl(url).then((film) => ({
+              title: film.title,
               url: url,
             }))
           );
 
-          Promise.all(movieRequests).then((moviesData) => {
-            this.movies = moviesData;
+          Promise.all(filmRequests).then((filmsData) => {
+            this.films = filmsData;
+
+            // Для каждого фильма получаем изображение
+            filmsData.forEach((film) => {
+              this.imageSearchService.getImages(film.title).subscribe((response: any) => {
+                if (response.items && response.items.length > 0) {
+                  // Сохраняем картинку для каждого фильма в объекте
+                  this.filmImages[film.title] = response.items[0].link;
+                }
+              });
+            });
+
             this.loadingService.setLoading(false);
           });
         });
@@ -50,13 +64,8 @@ export class CharacterDetailsComponent implements OnInit {
     }
   }
 
-  navigateToMovieDetails(url: string): void {
-    const movieId = url.split('/')[5];
-    const id = Number(movieId);
-    if (!isNaN(id)) {
-      this.router.navigate([`/movie/${id}`]);
-    } else {
-      console.error('Invalid movie ID');
-    }
+  navigateToMovieDetails(film: { title: string; url: string }): void {
+    const filmId = film.url.split('/')[5];
+    this.router.navigate([`/film/${filmId}`]);
   }
 }
