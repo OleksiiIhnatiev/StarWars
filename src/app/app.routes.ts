@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { MovieDetailsComponent } from './components/film-detail/film-details.component';
+import { FilmDetailsComponent } from './components/film-detail/film-details.component';
 import { CharacterDetailsComponent } from './components/character-detail/character-details.component';
 import { AppComponent } from './app.component';
-import { MoviesListComponent } from './components/film-list/films-list.component';
+import { FilmsListComponent } from './components/film-list/films-list.component';
 
 export const routes: Routes = [
-  { path: '', component: MoviesListComponent },
-  { path: 'film/:id', component: MovieDetailsComponent },
+  { path: '', component: FilmsListComponent },
+  { path: 'film/:id', component: FilmDetailsComponent },
   { path: 'character/:id', component: CharacterDetailsComponent },
 ];

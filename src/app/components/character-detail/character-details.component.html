@@ -8,8 +8,8 @@
   <h1 class="character-name">{{ character?.name }}</h1>
 
   <img
-    *ngIf="characterImages[character?.name]"
-    [src]="characterImages[character?.name]"
+    *ngIf="characterImages[character?.name ?? '']"
+    [src]="characterImages[character?.name ?? '']"
     alt="{{ character?.name }}"
     class="character-image"
   />
@@ -30,8 +30,8 @@
       class="film-item"
     >
       <img
-        *ngIf="filmImages[film.title]"
-        [src]="filmImages[film.title]"
+        *ngIf="filmImages[film.title ?? '']"
+        [src]="filmImages[film.title ?? '']"
         alt="{{ film.title }}"
         class="film-image"
       />

@@ -4,6 +4,7 @@ import { SwapiService } from '../../services/swapi.service';
 import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Film } from '../../models/film/film.model';
 
 @Component({
   selector: 'app-films-list',
@@ -11,8 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrls: ['./films-list.component.scss'],
   imports: [CommonModule, MatProgressSpinnerModule],
 })
-export class MoviesListComponent implements OnInit {
-  films: any[] = [];
+export class FilmsListComponent implements OnInit {
+  films: Film[] = [];
 
   constructor(
     private swapiService: SwapiService,
@@ -23,7 +24,7 @@ export class MoviesListComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.setLoading(true);
 
-    this.swapiService.getMovies().subscribe((data: any) => {
+    this.swapiService.getMovies().subscribe((data: { results: Film[] }) => {
       this.films = data.results;
       this.loadingService.setLoading(false);
     });

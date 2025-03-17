@@ -5,6 +5,8 @@ import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageSearchService } from '../../services/image.search.service';
+import { Film } from '../../models/film/film.model';
+import { ImageSearchResponse } from '../../models/image/image.model';
 
 @Component({
   selector: 'app-film-details',
@@ -12,10 +14,10 @@ import { ImageSearchService } from '../../services/image.search.service';
   styleUrls: ['./film-details.component.scss'],
   imports: [CommonModule, MatProgressSpinnerModule],
 })
-export class MovieDetailsComponent implements OnInit {
-  film: any;
-  characters: any[] = [];
-  characterImages: any = {};
+export class FilmDetailsComponent implements OnInit {
+  film: Film | null = null;
+  characters: { name: string; url: string }[] = [];
+  characterImages: Record<string, string> = {};
   filmImageUrl: string | null = null;
 
   constructor(
@@ -33,40 +35,49 @@ export class MovieDetailsComponent implements OnInit {
       if (!isNaN(id)) {
         this.loadingService.setLoading(true);
 
-        this.swapiService.getMovieDetails(id).subscribe((data: any) => {
-          this.film = data;
+        this.swapiService.getMovieDetails(id).subscribe({
+          next: (data: Film) => {
+            this.film = data;
 
-          this.imageSearchService
-            .getImages(this.film.title)
-            .subscribe((response: any) => {
-              if (response.items && response.items.length > 0) {
-                this.filmImageUrl = response.items[0].link;
-              }
-            });
-
-          const characterRequests = data.characters.map((url: string) =>
-            this.swapiService.getCharacterByUrl(url).then((char) => ({
-              name: char.name,
-              url: url,
-            }))
-          );
-
-          Promise.all(characterRequests).then((charactersData) => {
-            this.characters = charactersData;
-
-            charactersData.forEach((character) => {
+            if (this.film) {
               this.imageSearchService
-                .getImages(character.name)
-                .subscribe((response: any) => {
-                  if (response.items && response.items.length > 0) {
-                    this.characterImages[character.name] =
-                      response.items[0].link;
+                .getImages(this.film.title)
+                .subscribe((response: ImageSearchResponse) => {
+                  if (response.items?.length) {
+                    this.filmImageUrl = response.items[0].link;
                   }
                 });
-            });
 
+              const characterRequests = this.film.characters.map(
+                (url: string) =>
+                  this.swapiService.getCharacterByUrl(url).then((char) => ({
+                    name: char.name,
+                    url: url,
+                  }))
+              );
+
+              Promise.all(characterRequests).then((charactersData) => {
+                this.characters = charactersData;
+
+                charactersData.forEach((character) => {
+                  this.imageSearchService
+                    .getImages(character.name)
+                    .subscribe((response: ImageSearchResponse) => {
+                      if (response.items?.length) {
+                        this.characterImages[character.name] =
+                          response.items[0].link;
+                      }
+                    });
+                });
+
+                this.loadingService.setLoading(false);
+              });
+            }
+          },
+          error: (err) => {
+            console.error('Ошибка загрузки фильма:', err);
             this.loadingService.setLoading(false);
-          });
+          },
         });
       } else {
         console.error('Invalid film ID');
