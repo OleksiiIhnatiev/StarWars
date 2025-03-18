@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SwapiService } from '../../services/swapi.service';
-import { LoadingService } from '../../services/loading.service';
+import { SwapiService } from '../../services/swapi/swapi.service';
+import { LoadingService } from '../../services/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Film } from '../../models/film/film.model';
@@ -24,17 +24,24 @@ export class FilmsListComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.setLoading(true);
 
-    this.swapiService.getMovies().subscribe((data: { results: Film[] }) => {
-      this.films = data.results;
-      this.loadingService.setLoading(false);
+    this.swapiService.getMovies().subscribe({
+      next: (data: { results: Film[] }) => {
+        this.films = data.results;
+        this.loadingService.setLoading(false);
+      },
+      error: (error) => {
+        console.error('Failed to load films:', error);
+        this.loadingService.setLoading(false);
+      },
     });
   }
 
   getMovieId(url: string): number {
-    return Number(url.split('/')[5]);
+    const parts = url.split('/');
+    return Number(parts[parts.length - 2]);
   }
 
   navigateToMovieDetails(id: number): void {
-    this.router.navigate([`/film/${id}`]);
+    this.router.navigate([`/film`, id]);
   }
 }

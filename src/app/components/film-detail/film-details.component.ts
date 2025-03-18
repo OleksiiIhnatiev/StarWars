@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SwapiService } from '../../services/swapi.service';
-import { LoadingService } from '../../services/loading.service';
+import { SwapiService } from '../../services/swapi/swapi.service';
+import { LoadingService } from '../../services/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ImageSearchService } from '../../services/image.search.service';
 import { Film } from '../../models/film/film.model';
 import { ImageSearchResponse } from '../../models/image/image.model';
+import { forkJoin } from 'rxjs';
+import { Character } from '../../models/character/character.model';
+import { ImageSearchService } from '../../services/image/image.search.service';
 
 @Component({
   selector: 'app-film-details',
@@ -49,28 +51,33 @@ export class FilmDetailsComponent implements OnInit {
                 });
 
               const characterRequests = this.film.characters.map(
-                (url: string) =>
-                  this.swapiService.getCharacterByUrl(url).then((char) => ({
-                    name: char.name,
-                    url: url,
-                  }))
+                (url: string) => this.swapiService.getCharacterByUrl(url)
               );
 
-              Promise.all(characterRequests).then((charactersData) => {
-                this.characters = charactersData;
+              forkJoin(characterRequests).subscribe({
+                next: (charactersData: Character[]) => {
+                  this.characters = charactersData.map((char) => ({
+                    name: char.name,
+                    url: char.url,
+                  }));
 
-                charactersData.forEach((character) => {
-                  this.imageSearchService
-                    .getImages(character.name)
-                    .subscribe((response: ImageSearchResponse) => {
-                      if (response.items?.length) {
-                        this.characterImages[character.name] =
-                          response.items[0].link;
-                      }
-                    });
-                });
+                  this.characters.forEach((character) => {
+                    this.imageSearchService
+                      .getImages(character.name)
+                      .subscribe((response: ImageSearchResponse) => {
+                        if (response.items?.length) {
+                          this.characterImages[character.name] =
+                            response.items[0].link;
+                        }
+                      });
+                  });
 
-                this.loadingService.setLoading(false);
+                  this.loadingService.setLoading(false);
+                },
+                error: (err) => {
+                  console.error('Ошибка при загрузке персонажей:', err);
+                  this.loadingService.setLoading(false);
+                },
               });
             }
           },

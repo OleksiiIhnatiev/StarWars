@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SwapiService } from '../../services/swapi.service';
-import { LoadingService } from '../../services/loading.service';
+import { SwapiService } from '../../services/swapi/swapi.service';
+import { LoadingService } from '../../services/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ImageSearchService } from '../../services/image.search.service';
 import { Character } from '../../models/character/character.model';
 import { ImageSearchResponse } from '../../models/image/image.model';
+import { forkJoin } from 'rxjs';
+import { Film } from '../../models/film/film.model';
+import { ImageSearchService } from '../../services/image/image.search.service';
 
 @Component({
   selector: 'app-character-details',
@@ -50,26 +52,32 @@ export class CharacterDetailsComponent implements OnInit {
               });
 
             const filmRequests = data.films.map((url: string) =>
-              this.swapiService.getMovieByUrl(url).then((film) => ({
-                title: film.title,
-                url: url,
-              }))
+              this.swapiService.getMovieByUrl(url)
             );
 
-            Promise.all(filmRequests).then((filmsData) => {
-              this.films = filmsData;
+            forkJoin(filmRequests).subscribe({
+              next: (filmsData: Film[]) => {
+                this.films = filmsData.map((film) => ({
+                  title: film.title,
+                  url: film.url,
+                }));
 
-              filmsData.forEach((film) => {
-                this.imageSearchService
-                  .getImages(film.title)
-                  .subscribe((response: ImageSearchResponse) => {
-                    if (response.items && response.items.length > 0) {
-                      this.filmImages[film.title] = response.items[0].link;
-                    }
-                  });
-              });
+                this.films.forEach((film) => {
+                  this.imageSearchService
+                    .getImages(film.title)
+                    .subscribe((response: ImageSearchResponse) => {
+                      if (response.items?.length) {
+                        this.filmImages[film.title] = response.items[0].link;
+                      }
+                    });
+                });
 
-              this.loadingService.setLoading(false);
+                this.loadingService.setLoading(false);
+              },
+              error: (err) => {
+                console.error('Ошибка при загрузке фильмов:', err);
+                this.loadingService.setLoading(false);
+              },
             });
           });
       } else {
