@@ -1,59 +1,59 @@
-# StarWars
+# Star Wars Movie Explorer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+## Overview
+This is a single-page application (SPA) built with Angular that allows users to explore the world of "Star Wars" movies and characters using the [SWAPI](https://swapi.dev/) API.
 
-## Development server
+## Features
+- **Home Page:** Displays a list of "Star Wars" movies.
+- **Movie Details Page:** Shows movie information including title, producer, director, release date, opening crawl, and characters.
+- **Character Details Page:** Displays character data and a list of movies in which the character appeared.
+- **Navigation:** Users can seamlessly navigate between movies and characters.
+- **Optimized API Requests:** Data is cached to minimize unnecessary API calls.
+- **Loading Indicators:** Spinners are shown while data is being fetched.
+- **Responsive Design:** Fully mobile-friendly UI using Angular Material.
+- **Unit Tests:** Ensures application reliability.
 
-To start a local development server, run:
+## Tech Stack
+- **Frontend:** Angular, Angular Material, SCSS, TypeScript
+- **API:** SWAPI (https://swapi.dev/)
+- **Testing:** Jasmine, Karma
 
-```bash
-ng serve
-```
+## Installation & Setup
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/OleksiiIhnatiev/StarWars.git
+   cd star-wars
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Run the development server:
+   ```sh
+   ng serve
+   ```
+4. Open `http://localhost:4200` in your browser.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Live Demo
+The application is hosted on GitHub Pages:
+🔗 **[Star Wars Explorer - Live Demo](https://oleksiiihnatiev.github.io/start-wars-preview/)**
 
-## Code scaffolding
+## Roadmap
+- [x] Display movies from SWAPI
+- [x] Implement movie details page
+- [x] Implement character details page
+- [x] Optimize API calls with caching
+- [x] Add unit tests
+- [x] Add pagination for character list
+- [x] Improve UI/UX
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Contributing
+Contributions are welcome! Feel free to fork the repository and submit pull requests.
 
-```bash
-ng generate component component-name
-```
+## License
+Distributed under the MIT License.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Contact
+- GitHub: https://github.com/OleksiiIhnatiev/
+- Email: oleksii.ihnatiev28@gmail.com
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
