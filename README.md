@@ -1,4 +1,5 @@
-# Star Wars Movie Explorer
+# Star Wars Wiki
+![Branch Image](https://drive.google.com/file/d/1B0BNPuxrxFcAiIa6i06WNLSIfsjo47Kl/view?usp=drive_link)
 
 ## Overview
 This is a single-page application (SPA) built with Angular that allows users to explore the world of "Star Wars" movies and characters using the [SWAPI](https://swapi.dev/) API.
