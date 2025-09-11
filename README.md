@@ -23,7 +23,7 @@ This is a single-page application (SPA) built with Angular that allows users to 
 1. Clone the repository:
    ```sh
    git clone https://github.com/OleksiiIhnatiev/StarWars.git
-   cd star-wars
+   cd StarWars
    ```
 2. Install dependencies:
    ```sh
