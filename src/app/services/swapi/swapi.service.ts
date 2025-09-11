@@ -15,9 +15,9 @@ export class SwapiService {
 
   constructor(private http: HttpClient) {}
 
-  getMovies(): Observable<{ results: Film[] }> {
-    return this.http.get<{ results: Film[] }>(`${this.swapiUrl}/films/`);
-  }
+getMovies(): Observable<Film[]> {
+  return this.http.get<Film[]>(`${this.swapiUrl}/films`);
+}
 
   getMovieByUrl(url: string): Observable<Film> {
     const filmId = url.split('/')[5];
@@ -35,7 +35,7 @@ export class SwapiService {
   }
 
   getMovieDetails(id: number): Observable<Film> {
-    return this.http.get<Film>(`${this.swapiUrl}/films/${id}/`);
+    return this.http.get<Film>(`${this.swapiUrl}/films/${id}`);
   }
 
   getCharacterByUrl(url: string): Observable<Character> {
@@ -54,6 +54,6 @@ export class SwapiService {
   }
 
   getCharacterDetails(id: number): Observable<Character> {
-    return this.http.get<Character>(`${this.swapiUrl}/people/${id}/`);
+    return this.http.get<Character>(`${this.swapiUrl}/people/${id}`);
   }
 }
