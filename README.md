@@ -16,7 +16,7 @@ This is a single-page application (SPA) built with Angular that allows users to 
 
 ## Tech Stack
 - **Frontend:** Angular, Angular Material, SCSS, TypeScript
-- **API:** SWAPI (https://swapi.dev/)
+- **API:** SWAPI (https://swapi.info/)
 - **Testing:** Jasmine, Karma
 
 ## Installation & Setup
